@@ -172,8 +172,8 @@ npm install
 - Check network access is set to 0.0.0.0/0
 - Check your internet connection
 
-**"Port 5000 already in use"**
-- Change PORT in `.env` to 5001
+**"Port 8000 already in use"**
+- Change PORT in `.env` to 5000
 
 ---
 
