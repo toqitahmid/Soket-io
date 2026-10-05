@@ -7,6 +7,7 @@ import cors from 'cors';
 import { connectDB, getCollection, closeDB } from './config/database.js';
 import { Server } from 'socket.io';
 import http from "http";
+import { generateOrderId } from './utils/helper.js';
 
 // Load environment variables
 dotenv.config();
@@ -22,7 +23,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 io.on('connection', (socket) => {
-  console.log("Soket IO installed", socket.id)
+  console.log("Soket IO installed", socket.id);
+  socket.emit("connected", { message: `User ${socket.id} connected` });
+
+  console.log(generateOrderId());
 })
 
 // ==========================================
