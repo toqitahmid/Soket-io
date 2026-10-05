@@ -98,7 +98,7 @@ mongodb+srv://ordertracking_user:<password>@cluster0.xxxxx.mongodb.net/?retryWri
    PORT=5000
    MONGODB_URI=mongodb+srv://ordertracking_user:YOUR_PASSWORD@cluster0.xxxxx.mongodb.net/order_tracking_db?retryWrites=true&w=majority
    ADMIN_PASSWORD=admin123
-   CLIENT_URL=http://localhost:5173
+   CLIENT_URL=http://localhost:3000
    NODE_ENV=development
    ```
 
@@ -172,8 +172,8 @@ npm install
 - Check network access is set to 0.0.0.0/0
 - Check your internet connection
 
-**"Port 5000 already in use"**
-- Change PORT in `.env` to 5001
+**"Port 8000 already in use"**
+- Change PORT in `.env` to 5000
 
 ---
 
