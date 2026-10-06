@@ -1,5 +1,5 @@
-import { getCollection } from "../config/database";
-import { calculateTotals, createOrderDocument, generateOrderId } from "../utils/helper.js";
+import { getCollection } from "../config/database.js";
+import { calculateTotals, createOrderDocument, generateOrderId, validateOrderData } from "../utils/helper.js";
 
 export const orderHandler = (io, socket) => {
     console.log(`User connected: ${socket.id}`)
@@ -8,11 +8,14 @@ export const orderHandler = (io, socket) => {
 
     //Place Order
     socket.on('placeOrder', async (data, callback) => {
-        try{
+        try {
             console.log(`Place order from: ${socket.id}`);
             const validation = validateOrderData(data);
-            if (!validation.data) {
-                return callback({success: false, message: validation.message})
+            if (!validation.valid) {
+                if (typeof callback === 'function') {
+                    callback({ success: false, message: validation.message });
+                }
+                return;
             }
 
             const totals = calculateTotals(data.items);
@@ -27,11 +30,16 @@ export const orderHandler = (io, socket) => {
 
             io.to('admins').emit('newOrder', { order });
 
-            callback({ success: true, order });
+            if (typeof callback === 'function') {
+                callback({ success: true, order });
+            }
             console.log(`✅ Order created: ${orderId}`);
         }
         catch (err) {
-            
+            console.error('Error placing order:', err);
+            if (typeof callback === 'function') {
+                callback({ success: false, message: err.message });
+            }
         }
     })
 }
